@@ -3,7 +3,7 @@ import { deleteProduct } from "../apiservices/callToApi";
 import { updateQuantityCartProduct } from "../apiservices/callToApi";
 import { Context } from "../store/appContext";
 
-export const ListProduct = ({ edit, name, description, quantity, image, tipo, color, user_id, product_id }) => {
+export const ListProduct = ({ edit, name, description, quantity, color, image, tipo, user_id, product_id }) => {
 
     const [cantidad, setCantidad] = useState(quantity)
     const {actions} = useContext(Context)
@@ -29,6 +29,8 @@ export const ListProduct = ({ edit, name, description, quantity, image, tipo, co
     }, [cantidad])
 
 
+
+
     return (
         <>
             <div className="container">
@@ -36,7 +38,7 @@ export const ListProduct = ({ edit, name, description, quantity, image, tipo, co
                     <div className="col-md-2 col-sm-1 px-0">
                         <div>
                             <div className="ratio ratio-1x1">
-                                <img src={image} />
+                                <img src={image}/>
                             </div>
                         </div>
                     </div>

@@ -43,18 +43,8 @@ class Pedido(db.Model):
 
     pedido_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
-    direccion_de_envio = db.Column(db.String(150), unique=False, nullable=True)
-    smartphone_id = db.Column(db.Integer, db.ForeignKey('smartphones.smartphone_id'))
-    tv_id = db.Column(db.Integer, db.ForeignKey('tv.tv_id'))
-    laptop_id = db.Column(db.Integer, db.ForeignKey('laptops.laptop_id'))
-    smartphone_precio = db.Column(db.String(50), unique=False, nullable=True)
-    tv_precio = db.Column(db.String(50), unique=False, nullable=True)
-    laptop_precio = db.Column(db.String(50), unique=False, nullable=True)
-    precio_total = db.Column(db.String(50), unique=False, nullable=True)
     user = db.relationship('User', backref= 'pedido')
-    cart_smartphones = db.relationship('CartSmartphones', backref= 'pedido')
-    cart_laptops = db.relationship('CartLaptops', backref= 'pedido')
-    cart_tvs = db.relationship('CartTvs', backref= 'pedido')
+    items = db.Column(db.JSON, nullable=False, default=[])
  
 
     def __repr__(self):
@@ -64,89 +54,85 @@ class Pedido(db.Model):
         return {
             "pedido_id": self.pedido_id,
             "user_id": self.user_id,
-            "direccion_de_envio": self.direccion_de_envio,
-            "cart_smartphones": [smartphone.serialize() for smartphone in self.cart_smartphones],
-            "cart_tvs": [tvs.serialize() for tvs in self.cart_tvs],
-            "cart_laptops": [laptop.serialize() for laptop in self.cart_laptops],
-
+            "items" : self.items
         }
 
-class CartSmartphones(db.Model):
+# class CartSmartphones(db.Model):
 
-    __tablename__ = 'cart_smartphones'
+#     __tablename__ = 'cart_smartphones'
 
-    cart_product_id = db.Column(db.Integer, primary_key=True)
-    pedido_id = db.Column(db.Integer, db.ForeignKey('pedido.pedido_id'))
-    smartphone_id = db.Column(db.Integer, db.ForeignKey('smartphones.smartphone_id'))
-    smartphone = db.relationship('Smartphones', backref= 'cart_smartphones')
-    quantity = db.Column(db.Integer, nullable=False, default=1)
-    active_color = db.Column(db.Integer, nullable=False, default=0)
+#     cart_product_id = db.Column(db.Integer, primary_key=True)
+#     pedido_id = db.Column(db.Integer, db.ForeignKey('pedido.pedido_id'))
+#     smartphone_id = db.Column(db.Integer, db.ForeignKey('smartphones.smartphone_id'))
+#     smartphone = db.relationship('Smartphones', backref= 'cart_smartphones')
+#     quantity = db.Column(db.Integer, nullable=False, default=1)
+#     active_color = db.Column(db.Integer, nullable=False, default=0)
 
-    def serialize(self):
-        return {
-            "cart_product_id": self.cart_product_id,
-            "smartphone_id": self.smartphone_id,
-            "quantity": self.quantity,
-            "precio": self.smartphone.serialize()['precio'],
-            "modelo": self.smartphone.serialize()['modelo'],
-            "descripcion": self.smartphone.serialize()['descripcion'],
-            "colores": self.smartphone.serialize()['colores'],
-            "imagen": self.smartphone.serialize()['imagen'],
-            "tipo": self.smartphone.serialize()['tipo'],
-            "active_color": self.active_color
+#     def serialize(self):
+#         return {
+#             "cart_product_id": self.cart_product_id,
+#             "smartphone_id": self.smartphone_id,
+#             "quantity": self.quantity,
+#             "precio": self.smartphone.serialize()['precio'],
+#             "modelo": self.smartphone.serialize()['modelo'],
+#             "descripcion": self.smartphone.serialize()['descripcion'],
+#             "colores": self.smartphone.serialize()['colores'],
+#             "imagen": self.smartphone.serialize()['imagen'],
+#             "tipo": self.smartphone.serialize()['tipo'],
+#             "active_color": self.active_color
 
-        }
+#         }
 
-class CartTvs(db.Model):
+# class CartTvs(db.Model):
 
-    __tablename__ = 'cart_tvs'
+#     __tablename__ = 'cart_tvs'
 
-    cart_product_id = db.Column(db.Integer, primary_key=True, nullable=False)
-    pedido_id = db.Column(db.Integer, db.ForeignKey('pedido.pedido_id'), nullable=False)
-    tv_id = db.Column(db.Integer, db.ForeignKey('tv.tv_id'))
-    tvs = db.relationship('TVs', backref= 'cart_tvs')
-    quantity = db.Column(db.Integer, nullable=False, default=1)
+#     cart_product_id = db.Column(db.Integer, primary_key=True, nullable=False)
+#     pedido_id = db.Column(db.Integer, db.ForeignKey('pedido.pedido_id'), nullable=False)
+#     tv_id = db.Column(db.Integer, db.ForeignKey('tv.tv_id'))
+#     tvs = db.relationship('TVs', backref= 'cart_tvs')
+#     quantity = db.Column(db.Integer, nullable=False, default=1)
 
-    def serialize(self):
-        return {
-            "cart_product_id": self.cart_product_id,
-            "tv_id": self.tv_id,
-            "quantity": self.quantity,
-            "precio": self.tvs.serialize()['precio'],
-            "modelo": self.tvs.serialize()['modelo'],
-            "descripcion": self.tvs.serialize()['descripcion'],
-            "imagen": self.tvs.serialize()['imagen'],
-            "tipo": self.tvs.serialize()['tipo']
-
-
-        }
+#     def serialize(self):
+#         return {
+#             "cart_product_id": self.cart_product_id,
+#             "tv_id": self.tv_id,
+#             "quantity": self.quantity,
+#             "precio": self.tvs.serialize()['precio'],
+#             "modelo": self.tvs.serialize()['modelo'],
+#             "descripcion": self.tvs.serialize()['descripcion'],
+#             "imagen": self.tvs.serialize()['imagen'],
+#             "tipo": self.tvs.serialize()['tipo']
 
 
-class CartLaptops(db.Model):
+#         }
 
-    __tablename__ = 'cart_laptops'
 
-    cart_product_id = db.Column(db.Integer, primary_key=True)
-    pedido_id = db.Column(db.Integer, db.ForeignKey('pedido.pedido_id'))
-    laptop_id = db.Column(db.Integer, db.ForeignKey('laptops.laptop_id'))
-    laptop = db.relationship('Laptops', backref= 'cart_laptops')
-    quantity = db.Column(db.Integer, nullable=False, default=1)
-    active_color = db.Column(db.Integer, nullable=False, default=0)
+# class CartLaptops(db.Model):
 
-    def serialize(self):
-        return {
-            "cart_product_id": self.cart_product_id,
-            "laptop_id": self.laptop_id,
-            "quantity": self.quantity,
-            "precio": self.laptop.serialize()['precio'],
-            "modelo": self.laptop.serialize()['modelo'],
-            "descripcion": self.laptop.serialize()['descripcion'],
-            "colores": self.laptop.serialize()['colores'],
-            "imagen": self.laptop.serialize()['imagen'],
-            "tipo": self.laptop.serialize()['tipo'],
-            "active_color": self.active_color
+#     __tablename__ = 'cart_laptops'
 
-        }
+#     cart_product_id = db.Column(db.Integer, primary_key=True)
+#     pedido_id = db.Column(db.Integer, db.ForeignKey('pedido.pedido_id'))
+#     laptop_id = db.Column(db.Integer, db.ForeignKey('laptops.laptop_id'))
+#     laptop = db.relationship('Laptops', backref= 'cart_laptops')
+#     quantity = db.Column(db.Integer, nullable=False, default=1)
+#     active_color = db.Column(db.Integer, nullable=False, default=0)
+
+#     def serialize(self):
+#         return {
+#             "cart_product_id": self.cart_product_id,
+#             "laptop_id": self.laptop_id,
+#             "quantity": self.quantity,
+#             "precio": self.laptop.serialize()['precio'],
+#             "modelo": self.laptop.serialize()['modelo'],
+#             "descripcion": self.laptop.serialize()['descripcion'],
+#             "colores": self.laptop.serialize()['colores'],
+#             "imagen": self.laptop.serialize()['imagen'],
+#             "tipo": self.laptop.serialize()['tipo'],
+#             "active_color": self.active_color
+
+#         }
 
 class Smartphones(db.Model):
 
@@ -167,7 +153,6 @@ class Smartphones(db.Model):
     imagen = db.Column(db.JSON, unique=False)
     tipo = db.Column(db.String(150), unique=False, nullable= False)
 
-    pedido = db.relationship('Pedido', backref= 'smartphones')
 
     def __repr__(self):
         return f'<Smartphones {self.modelo, self.precio}>'
@@ -211,7 +196,6 @@ class TVs(db.Model):
     tipo = db.Column(db.String(150), unique=False, nullable= False)
   
 
-    pedido = db.relationship('Pedido', backref= 'tv')
 
     def __repr__(self):
         return f'<TVs {self.modelo, self.marca, self.precio}>'
@@ -259,8 +243,6 @@ class Laptops(db.Model):
     descripcion_tarjeta_grafica = db.Column(db.String(300), unique=False, nullable=False)
     tipo = db.Column(db.String(150), unique=False, nullable= False)
 
-
-    pedido = db.relationship('Pedido', backref= 'laptops')
 
     def __repr__(self):
         return f'<Laptops {self.modelo, self.marca, self.precio}>'

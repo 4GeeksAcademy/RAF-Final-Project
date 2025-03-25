@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Smartphones, TVs, Laptops, Pedido, CartSmartphones, CartTvs, CartLaptops
+from api.models import db, User, Smartphones, TVs, Laptops, Pedido
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 import json
@@ -179,89 +179,176 @@ def delete_cart(user_id):
 def add_product_to_cart(user_id, product_type, product_id, active_color):
 
     cart = Pedido.query.filter_by(user_id=user_id).first()
+    
+    if cart:
+    
+        exist_item = None
+        # if product_type == 'smartphone':
+        #     new_item = Smartphones.query.get(product_id)
+        # elif product_type == 'laptop':
+        #     new_item = Laptops.query.get(product_id)
+        # elif product_type == 'tv':
+        #     new_item = TVs.query.get(product_id)
 
-    existing_smartphone = CartSmartphones.query.filter_by(pedido_id=cart.pedido_id, smartphone_id=product_id, active_color=active_color).first()
-    existing_tv = CartTvs.query.filter_by(pedido_id=cart.pedido_id, tv_id=product_id).first()
-    existing_laptop = CartLaptops.query.filter_by(pedido_id=cart.pedido_id, laptop_id=product_id, active_color=active_color).first()
+        # if not new_item:
+        #     return {"msg": "Producto no encontrado"}, 404
+        
 
-    if product_type == 'smartphone':
-        if existing_smartphone:
-            existing_smartphone.quantity+=1
-            db.session.commit()
-            return jsonify({"msg": "Producto agregado al carrito"}), 200
+        for item in cart.items:
+            if item.product_id == product_id and item.tipo == product_type:
+                exist_item = item
+                break
+        
+        if exist_item:
+            exist_item.quantity += 1
         else:
-            add_product = CartSmartphones(pedido_id=cart.pedido_id, smartphone_id=product_id, active_color=active_color)
+            new_item = cart
+            db.session.add(new_item)
+        db.session.commit()
 
-    elif product_type == 'tv':
-        if existing_tv:
-            existing_tv.quantity+=1
-            db.session.commit()
-            return jsonify({"msg": "Producto agregado al carrito"}), 200
-        else:
-            add_product = CartTvs(pedido_id=cart.pedido_id, tv_id=product_id)
-    elif product_type == 'laptop':
-        if existing_laptop:
-            existing_laptop.quantity+=1
-            db.session.commit()
-            return jsonify({"msg": "Producto agregado al carrito"}), 200
-        else:
-            add_product = CartLaptops(pedido_id=cart.pedido_id, laptop_id=product_id, active_color=active_color)
+        return jsonify({"msg" : "Agregado producto", "carrito": cart.items})
 
-    db.session.add(add_product)
-    db.session.commit()
 
-    return jsonify({"msg": "Producto agregado al carrito"}), 200
+
+        # cart_filter = filter(lambda x: (x['product_id'] == product_id and x['tipo'] == product_type and x['active_color'] == active_color), cart.items)
+
+        # if cart_filter:
+            # for item in cart.items:
+            #     if item['product_id'] == product_id and item['tipo'] == product_type:
+            #         item['quantity'] = item['quantity'] + 1
+            # print(cart_filter)
+        # db.session.commit()
+        # else:
+        #     if product_type == "tv":
+        #                 cart_items = {
+        #                     "product_id": new_item.serialize()['tv_id'],
+        #                     "nombre": new_item.serialize()['modelo'],
+        #                     "precio": new_item.serialize()['precio'],
+        #                     "descripcion": new_item.serialize()['descripcion'],
+        #                     "imagen": new_item.serialize()['imagen'],
+        #                     "tipo": new_item.serialize()['tipo'],
+        #                     "active_color": 0,
+        #                     "quantity" : 1,
+        #                      }
+        #     elif product_type == "smartphone":
+        #                 cart_items = {
+        #                     "product_id": new_item.serialize()['smartphone_id'],
+        #                     "nombre": new_item.serialize()['modelo'],
+        #                     "precio": new_item.serialize()['precio'],
+        #                     "descripcion": new_item.serialize()['descripcion'],
+        #                     "imagen": new_item.serialize()['imagen'],
+        #                     "colores": new_item.serialize()['colores'],
+        #                     "tipo": new_item.serialize()['tipo'],
+        #                     "active_color": active_color,
+        #                     "quantity" : 1
+        #                  }
+        #     elif product_type == "laptop":
+        #                 cart_items = {
+        #                     "product_id": new_item.serialize()['laptop_id'],
+        #                     "nombre": new_item.serialize()['modelo'],
+        #                     "precio": new_item.serialize()['precio'],
+        #                     "descripcion": new_item.serialize()['descripcion'],
+        #                     "imagen": new_item.serialize()['imagen'],
+        #                     "colores": new_item.serialize()['colores'],
+        #                     "tipo": new_item.serialize()['tipo'],
+        #                     "active_color": active_color,
+        #                     "quantity" : 1
+        #                  }
+
+    
+
+        #     cart.items = cart.items + [cart_items]
+        #     db.session.add(cart)
+        #     db.session.commit()
+
+   
+  
+
+        return {"msg": "Producto agregado al carrito", "carrito": cart.items}, 200
+    
+
+    # existing_smartphone = CartSmartphones.query.filter_by(pedido_id=cart.pedido_id, smartphone_id=product_id, active_color=active_color).first()
+    # existing_tv = CartTvs.query.filter_by(pedido_id=cart.pedido_id, tv_id=product_id).first()
+    # existing_laptop = CartLaptops.query.filter_by(pedido_id=cart.pedido_id, laptop_id=product_id, active_color=active_color).first()
+
+    # if product_type == 'smartphone':
+    #     if existing_smartphone:
+    #         existing_smartphone.quantity+=1
+    #         db.session.commit()
+    #         return jsonify({"msg": "Producto agregado al carrito"}), 200
+    #     else:
+    #         add_product = CartSmartphones(pedido_id=cart.pedido_id, smartphone_id=product_id, active_color=active_color)
+
+    # elif product_type == 'tv':
+    #     if existing_tv:
+    #         existing_tv.quantity+=1
+    #         db.session.commit()
+    #         return jsonify({"msg": "Producto agregado al carrito"}), 200
+    #     else:
+    #         add_product = CartTvs(pedido_id=cart.pedido_id, tv_id=product_id)
+    # elif product_type == 'laptop':
+    #     if existing_laptop:
+    #         existing_laptop.quantity+=1
+    #         db.session.commit()
+    #         return jsonify({"msg": "Producto agregado al carrito"}), 200
+    #     else:
+    #         add_product = CartLaptops(pedido_id=cart.pedido_id, laptop_id=product_id, active_color=active_color)
+
+    # db.session.add(add_product)
+    # db.session.commit()
+
+    # # return jsonify({"msg": "Producto agregado al carrito"}), 200
 
 #ENDPOINT ELIMINAR PRODUCTOS DEL CARRITO
 
-@api.route('/cart/<int:user_id>/product/<string:product_type>/<int:cart_product_id>', methods=['DELETE'])
-def remove_product_from_cart(user_id, product_type, cart_product_id):
+# @api.route('/cart/<int:user_id>/product/<string:product_type>/<int:cart_product_id>', methods=['DELETE'])
+# def remove_product_from_cart(user_id, product_type, cart_product_id):
 
-    cart = Pedido.query.filter_by(user_id=user_id).first()
+#     cart = Pedido.query.filter_by(user_id=user_id).first()
 
-    if product_type == 'smartphone':
-        product = CartSmartphones.query.filter_by(pedido_id=cart.pedido_id, cart_product_id=cart_product_id).first()
-    elif product_type == 'tv':
-        product = CartTvs.query.filter_by(pedido_id=cart.pedido_id, cart_product_id=cart_product_id).first()
-    elif product_type == 'laptop':
-        product = CartLaptops.query.filter_by(pedido_id=cart.pedido_id, cart_product_id=cart_product_id).first()
+#     if product_type == 'smartphone':
+#         product = CartSmartphones.query.filter_by(pedido_id=cart.pedido_id, cart_product_id=cart_product_id).first()
+#     elif product_type == 'tv':
+#         product = CartTvs.query.filter_by(pedido_id=cart.pedido_id, cart_product_id=cart_product_id).first()
+#     elif product_type == 'laptop':
+#         product = CartLaptops.query.filter_by(pedido_id=cart.pedido_id, cart_product_id=cart_product_id).first()
 
-    if product:
-        db.session.delete(product)
-        db.session.commit()
-        return jsonify({"msg": "Producto eliminado del carrito"}), 200
+#     if product:
+#         db.session.delete(product)
+#         db.session.commit()
+#         return jsonify({"msg": "Producto eliminado del carrito"}), 200
 
-    return jsonify({"msg": "Producto no encontrado en el carrito"}), 400
+#     return jsonify({"msg": "Producto no encontrado en el carrito"}), 400
 
 #ENDPOINT MODIFICAR PRODUCTOS DEL CARRITO
 
-@api.route('/cart/<int:user_id>/product/<string:product_type>/<int:product_id>', methods=['PUT'])
-def modify_products_from_cart(user_id, product_type, product_id):
+# @api.route('/cart/<int:user_id>/product/<string:product_type>/<int:product_id>', methods=['PUT'])
+# def modify_products_from_cart(user_id, product_type, product_id):
 
-    cart = Pedido.query.filter_by(user_id=user_id).first()
+#     cart = Pedido.query.filter_by(user_id=user_id).first()
 
-    if product_type == 'smartphone':
-        product = CartSmartphones.query.filter_by(pedido_id=cart.pedido_id, cart_product_id=product_id).first()
+#     if product_type == 'smartphone':
+#         product = CartSmartphones.query.filter_by(pedido_id=cart.pedido_id, cart_product_id=product_id).first()
 
-    elif product_type == 'tv':
-        product = CartTvs.query.filter_by(pedido_id=cart.pedido_id, cart_product_id=product_id).first()
+#     elif product_type == 'tv':
+#         product = CartTvs.query.filter_by(pedido_id=cart.pedido_id, cart_product_id=product_id).first()
 
-    elif product_type == 'laptop':
-        product = CartLaptops.query.filter_by(pedido_id=cart.pedido_id, cart_product_id=product_id).first()
+#     elif product_type == 'laptop':
+#         product = CartLaptops.query.filter_by(pedido_id=cart.pedido_id, cart_product_id=product_id).first()
 
-    else:
-        return jsonify({"msg": "Producto no encontrado"}), 400
+#     else:
+#         return jsonify({"msg": "Producto no encontrado"}), 400
 
-    if product:
-        new_quantity = request.json.get('quantity')
-        if new_quantity > 0:
-                product.quantity = new_quantity
-                db.session.commit()
-                return jsonify({"msg": "Cantidad actualizada"}), 200
-        else:
-            return jsonify({"msg": "Cantidad inválida"}), 400
+#     if product:
+#         new_quantity = request.json.get('quantity')
+#         if new_quantity > 0:
+#                 product.quantity = new_quantity
+#                 db.session.commit()
+#                 return jsonify({"msg": "Cantidad actualizada"}), 200
+#         else:
+#             return jsonify({"msg": "Cantidad inválida"}), 400
 
-    return jsonify({"msg": "Producto no encontrado"})
+#     return jsonify({"msg": "Producto no encontrado"})
 
 #ENDPOINTS PHONES    
 

@@ -12,7 +12,7 @@ export const Cart = () => {
     useEffect(() => {
         actions.setNegativeColors();
         actions.setNavbarVisibility();
-        actions.getCart(userId);
+        actions.getCart(1);
     }, []);
 
     return (

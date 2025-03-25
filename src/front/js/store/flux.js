@@ -90,30 +90,39 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const response = await fetch(urlBackend + 'cart/' + user_id)
 					
 					const data = await response.json()
-					const cart = data[0]
-					const smartphones = cart["cart_smartphones"]
-					const laptops = cart["cart_laptops"]
-					const tvs = cart["cart_tvs"]
-					const full_cart = []
-					let color = ""
-					full_cart.push(smartphones, laptops, tvs)
+					console.log(data)
+					let cart_items = data[0].items
+					console.log(cart_items)
+					
+					
+					
+					setStore({cart: cart_items})
 
-					const done_cart = []
-					full_cart.forEach((cart_list) => {
-						cart_list.forEach((item) => {
-							if(item.tipo =="laptop" || item.tipo == "smartphone"){
-							color = (item.colores[item.active_color].toLowerCase()).replace(/ /g, "_")
-							done_cart.push({modelo: item.modelo, descripcion: item.descripcion, precio: item.precio, cantidad: item.quantity, image: item.imagen[color][0] , color: (item.colores[item.active_color]).toUpperCase(), tipo : item.tipo, product_id: item.cart_product_id})
+					// const cart = data[0]
+					// const smartphones = cart["cart_smartphones"]
+					// const laptops = cart["cart_laptops"]
+					// const tvs = cart["cart_tvs"]
+					// const full_cart = []
+					// let color = ""
+					full_cart.push(tvs, smartphones, laptops)
+
+					// const done_cart = []
+					// full_cart.forEach((cart_list) => {
+					// 	cart_list.forEach((item) => {
+					// 		if(item.tipo =="laptop" || item.tipo == "smartphone"){
+								
+					// 		color = (item.colores[item.active_color].toLowerCase()).replace(/ /g, "_")
+					// 		done_cart.push({modelo: item.modelo, descripcion: item.descripcion, precio: item.precio, cantidad: item.quantity, image: item.imagen[color][0] , color: (item.colores[item.active_color]).toUpperCase(), tipo : item.tipo, product_id: item.cart_product_id})
 							
 
-						}
-							else {
-								done_cart.push({modelo: item.modelo, descripcion: item.descripcion, precio: item.precio, cantidad: item.quantity, image: item.imagen[0], tipo: item.tipo, product_id: item.cart_product_id})}
+					// 	}
+					// 		else {
+					// 			done_cart.push({modelo: item.modelo, descripcion: item.descripcion, precio: item.precio, cantidad: item.quantity, image: item.imagen[0], tipo: item.tipo, product_id: item.cart_product_id})}
 								
-							})
-					})
+					// 		})
+					// })
 
-					setStore({ cart: done_cart })
+					// setStore({ cart: done_cart })
 					
 				} catch (error) {
 

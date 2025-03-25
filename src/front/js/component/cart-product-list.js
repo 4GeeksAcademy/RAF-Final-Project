@@ -21,7 +21,7 @@ export const ProductList = ({ user_id }) => {
                             return (
                                 <>
                                     <div className="p-2">
-                                        <ListProduct edit={edit} name={item.modelo} description={item.descripcion} quantity={item.cantidad} image={item.image}  color={item.color}tipo={item.tipo} user_id={user_id} product_id={item.product_id} />
+                                        <ListProduct edit={edit} name={item.nombre} description={item.descripcion} quantity={item.quantity} color={item.tipo != "tv" && (item.colores?.[item.active_color]).toUpperCase() } image={item.tipo != "tv" ? item.imagen?.[((item.colores?.[item.active_color])?.toLowerCase()).replace(/ /g, "_")][0] : item.imagen?.[item.active_color]}  tipo={item.tipo} user_id={user_id} product_id={item.product_id} />
                                     </div>
                                 </>
                             )
