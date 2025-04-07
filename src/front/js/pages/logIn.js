@@ -30,7 +30,7 @@ export const LogIn = () => {
 
     return (
         <>
-            <div className="container-fluid d-flex justify-content-center align-items-center mb-5" style={{ backgroundColor: "rgb(47, 65, 79)" }}>
+            <div className="container-fluid d-flex justify-content-center align-items-center mb-5" style={{ backgroundColor: "rgb(47, 65, 79)", width: "30em" }}>
                 <div className="row md-col-12">
                     <div className="d-flex justify-content-center mt-5">
                         <Link to="/">
@@ -38,7 +38,7 @@ export const LogIn = () => {
                         </Link>
                     </div>
                     <h1 className="text-white titulo mt-3 text-center title-login">Iniciar sesión</h1>
-                    <form className="border border-light rounded-3 mb-5" onSubmit={handleSubmit}>
+                    <form className="border border-light rounded-3 mb-5 px-3" onSubmit={handleSubmit}>
                         
                         <div className={`${responseApi.msg ? "opacity-100": "opacity-0"} mt-3 mb-0 d-flex justify-content-center rounded my-0`}>
                             <h5 className="py-0 bg-white text-danger rounded p-2">
@@ -60,7 +60,7 @@ export const LogIn = () => {
                             </div>
                         </div>
                         <div style={{ marginTop: '20px' }}>
-                            <span className="text-white mt-4 texto">¿No tienes una cuenta?</span> <span><Link to={'/signup'}><span style={{ color: 'rgb(102, 252, 241)' }}>Crear Usuario</span></Link></span>
+                            <span className="text-white mt-4 texto">¿No tienes una cuenta?</span> <span><Link to={'/signup'}><span style={{ color: 'rgb(102, 252, 241)' }}>Crear usuario</span></Link></span>
                         </div>
                         <button type="submit" className="btn button-submit mt-5 mb-4 text-white texto">Continuar</button>
                     </form>

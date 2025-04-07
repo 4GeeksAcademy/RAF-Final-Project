@@ -111,13 +111,13 @@ export const Navbar = () => {
 									<a href="#footer" className="nav-link" style={{ color: "white" }} >Contacto</a>
 								</li>
 								<li className="nav-item dropdown" >
-									<a className="nav-link dropbtn" style={{ color: "white" }} ><i className="fa-solid fa-user"></i></a>
+									<a className="nav-link dropbtn move-icon-navbar" style={{ color: "white" }} ><i className="fa-solid fa-user"></i></a>
 									{!isVerified ?
 										<div className={`dropdown-content ${store.negative_colors ? "negative-login" : "positive-login"}`}>
 											<br/>
-											<Link to={'/login'}><span>Iniciar Sesion</span></Link>
+											<Link to={'/login'}><span>Iniciar sesión</span></Link>
 											<hr/>
-											<Link to={'/signup'}><span>Crear Usuario</span></Link>
+											<Link to={'/signup'}><span>Crear usuario</span></Link>
 											<br/>
 											</div>
 										:
@@ -135,7 +135,7 @@ export const Navbar = () => {
 								</li>
 								<li className="nav-item">
 									<Link to="/cart" onClick={window.location.reload}>
-										<p className="nav-link cart-icon-navbar" style={{ color: "white" }} ><i className="fa-solid fa-cart-shopping"></i></p>
+										<p className="nav-link move-icon-navbar" style={{ color: "white" }} ><i className="fa-solid fa-cart-shopping"></i></p>
 									</Link>
 								</li>
 							</ul>

@@ -75,19 +75,19 @@ export const SignUp = () => {
 
     return (
         <>
-            <div className="container-fluid d-flex justify-content-center align-items-center" style={{ backgroundColor: "rgb(47, 65, 79)" }}>
+            <div className="container-fluid d-flex justify-content-center align-items-center" style={{ backgroundColor: "rgb(47, 65, 79)", width:"30em" }}>
                 <div className="row md-col-12 form-signup">
                     <div className="d-flex justify-content-center mt-5">
                         <Link to="/">
                             <img src="https://i.postimg.cc/ryxpY9LS/imagotipo-naranja.png" style={{ height: "50px" }} />
                         </Link>
                     </div>
-                    <h1 className="text-white titulo text-center title-signup">Crear Cuenta</h1>
-                    <form className="border border-light rounded-3" onSubmit={handleSubmit}>
+                    <h1 className="text-white titulo text-center title-signup mt-2">Crear usuario</h1>
+                    <form className="border border-light rounded-3 px-4" onSubmit={handleSubmit}>
                         <div className="texto">
                         
                                  <div className={`${userExist ? "opacity-100" : "opacity-0"} d-flex justify-content-start text-danger mt-2`}>
-                             <span className="bg-white p-1 rounded"><i class="fa-solid fa-triangle-exclamation"></i> Ya existe una cuenta asociada a este <b>email</b> o <b>usuario</b></span></div>
+                             <span className="bg-white p-1 rounded"><i class="fa-solid fa-triangle-exclamation"></i> Ya existe una cuenta asociada a este <b>Email</b> o <b>Usuario</b>.</span></div>
                             <div className="d-flex">
                                
                             

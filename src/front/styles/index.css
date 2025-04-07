@@ -61,8 +61,7 @@ ul {
 }
 
 .title-signup {
-    font-size: 50px;
-    margin-top: 50px;
+    font-size: 65px;
     margin-bottom: 22px;
 }
 
@@ -969,12 +968,12 @@ input[type=file]::-webkit-file-upload-button {
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
 
-.cart-icon-navbar {
+.move-icon-navbar {
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
 }
 
-.cart-icon-navbar:hover {
+.move-icon-navbar:hover {
     transform: scale(1.1) translateY(-2px);
 }
 

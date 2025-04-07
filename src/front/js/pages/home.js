@@ -34,7 +34,6 @@ export const Home = () => {
 
 	useEffect(() => {
 		if(isVerified != true && isVerified != null){
-			console.log("Usuario loggeado")
 			Swal.fire({
 				title: "Bienvenido/a!",
 				text: "Para poder agregar productos a tu carrito es necesario que hayas iniciado sesión.",
@@ -53,7 +52,7 @@ export const Home = () => {
 				}
 			  });
 		}				
-		console.log(isVerified)
+		
 	  }, [isVerified])
 
 	return (
