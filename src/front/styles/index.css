@@ -61,7 +61,8 @@ ul {
 }
 
 .title-signup {
-    font-size: 65px;
+    font-size: 50px;
+    margin-top: 50px;
     margin-bottom: 22px;
 }
 
@@ -135,7 +136,7 @@ ul {
 
 .dropdown-content-search {
     max-height: 15em;
-    max-width: 13.45em;
+    max-width: 13.85em;
     cursor: pointer;
     background-color: white;
     color: black;
@@ -144,15 +145,13 @@ ul {
     font-size: 0.9em;
 }
 
-.input-search,
-.input-search:focus {
+.input-search{
     border: 0;
     border-radius: 0.5em;
     outline: 0;
 }
 
-.input-search-focus,
-.input-search-focus:focus {
+.input-search-focus{
     border: 0;
     outline: 0;
     border-radius: 0.5em 0.5em 0 0;
@@ -968,12 +967,12 @@ input[type=file]::-webkit-file-upload-button {
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
 
-.move-icon-navbar {
+.cart-icon-navbar {
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
 }
 
-.move-icon-navbar:hover {
+.cart-icon-navbar:hover {
     transform: scale(1.1) translateY(-2px);
 }
 
@@ -1115,3 +1114,4 @@ input[type=file]::-webkit-file-upload-button {
 .empty-cart-image {
     width: 25em;
 }
+
