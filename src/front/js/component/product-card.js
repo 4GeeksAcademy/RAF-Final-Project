@@ -5,7 +5,7 @@ export const ProductCard = ({ product, name }) => {
 
     let images = "";
     const validacionLista = (producto) => {
-        if (producto == "Laptops" || producto == "Moviles") {
+        if (producto == "Portatiles" || producto == "Moviles") {
             const color = (product.colores[0].toLowerCase()).replace(/ /g, "_");
             images = product.imagen[color];
         }
@@ -16,7 +16,7 @@ export const ProductCard = ({ product, name }) => {
 
     let IndividualProduct = "";
     const validacionProduct = (producto) => {
-        if (producto == "Laptops") {
+        if (producto == "Portatiles") {
             IndividualProduct = `/laptop-info/${product.laptop_id}`
         } else if (producto == "Moviles") {
             IndividualProduct = `/smartphone-info/${product.smartphone_id}`

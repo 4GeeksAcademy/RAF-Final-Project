@@ -6,7 +6,7 @@ export const ProductSection = ({ name, products }) => {
 
     let catalogProduct = "";
     const validacionProduct = (producto) => {
-        if (producto == "Laptops") {
+        if (producto == "Portatiles") {
             catalogProduct = "/laptops-catalog";
         } else if (producto == "Moviles") {
             catalogProduct = "/phones-catalog";

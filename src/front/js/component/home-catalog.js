@@ -53,7 +53,7 @@ export const HomeCatalog = () => {
             <div className="container-card-home">
                 <ProductSection name="Moviles" products={phones} />
                 <ProductSection name="TVs" products={tvs} />
-                <ProductSection name="Laptops" products={laptops} />
+                <ProductSection name="Portatiles" products={laptops} />
             </div>
         </>
     );
