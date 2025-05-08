@@ -13,7 +13,7 @@ export const Welcome = () => {
                     <div className="d-flex justify-content-center">
                         <div className=" rounded">
                             <a href="#inicio" className="carrousel-button contenedor-flecha text-white">
-                                <span className="flecha primero"></span> 
+                                <span className="flecha primero"></span>
                             </a>
                         </div>
                     </div>
@@ -35,7 +35,7 @@ export const Welcome = () => {
                 <div className="carousel-item mb-4">
                     <Link to="/smartphone-info/1">
                         <div className="carousel-image">
-                            <img src="https://i.ibb.co/5h2BB0Cy/Oferta-samsung.jpg" className="d-block mx-auto" />
+                            <img src="https://i.ibb.co/GvSP1TjY/Oferta-Samsung-Galaxy-S25.png" className="d-block mx-auto" />
                         </div>
                     </Link>
                 </div>
